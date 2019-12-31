@@ -191,9 +191,14 @@ And we'll tak a cup o' kindness yet,
 for auld lang syne.
 ```
 
-## Todo 
+## Hello, World!
 
-Write an interpreter and make this puppy work for real!
+That's lovely, can we make it do real work? Can we do "Hello, World!"? Why yes,
+yes we can!
+
+```
+// TODO: Hello, World!
+```
 
 ## License
 
