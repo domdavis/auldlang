@@ -197,7 +197,40 @@ That's lovely, can we make it do real work? Can we do "Hello, World!"? Why yes,
 yes we can!
 
 ```
-// TODO: Hello, World!
+Happy 2020 Everyone
+
+And so it is that we can sing
+And keep the tune the same
+And sort of because it's hard!
+And bugger that for a game of soldiers, it's late I want to get on with some other stuff and I need very !
+And specific sentence lengths, and ooh, look at that, now I've thrown grammar out of the window too, this really!
+And is cheating. Honestly, if I needed to, at this point I'd just split words over lines so that I could get the!
+And correct line lengths, but as it is I've only needed to sneak in a wayward space, however I'm bored now and this!
+And gets a lot easier if I just use spaces      !
+And                                 !
+And I'll do a better version later, I promise, but for now, spaces!                        !
+And                                                                                                                !
+And                                                                                                                   !
+And                                                                                                             !
+And                                                                                                     !
+And then we can just wrap the buffer!!
+sin auld lang syne o
+sin auld lang syne o
+sin auld lang syne o
+sin auld lang syne o
+sin auld lang syne o
+sin auld lang syne o
+sin auld lang syne o
+sin auld lang syne o
+sin auld lang syne o
+sin auld lang syne o
+sin auld lang syne o
+sin auld lang syne o
+sin auld lang syne o
+```
+
+```
+[72 'H'][101 'e'][108 'l'][108 'l'][111 'o'][44 ','][32 ' '][87 'W'][111 'o'][114 'r'][108 'l'][100 'd'][33 '!']
 ```
 
 ## License
