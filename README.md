@@ -42,13 +42,15 @@ a second instruction.
 ### ?
 
 A `?` in the terminator will read a string from `stdin` and add the character
-count of that string to the current memory cell.
+count of that string to the current memory cell. Then move the `ptr` to the 
+right.
 
 In pseudo-code:
 
 ```
 text = readline()
 *ptr = *ptr + len(text)
+ptr++
 ```
 
 ### !
@@ -69,14 +71,17 @@ A `,` in the terminator will increment the value of the current cell (`*ptr--`).
 
 ### Instructions
 
-Auld Lang understands the following 7 instructions. If it does not recognise an
+Auld Lang understands the following 9 instructions. If it does not recognise an
 instruction a syntax error is thrown. Blank lines are ignored.
 
 ### Happy
 
-The first line in any Auld Lang is the `Happy` instruction which takes an
-argument. The argument defines the memory allocation for the program. Zero is an
-invalid memory size so an argument must be provided.
+The `Happy` allocates memory for the program. It takes an argument which defines
+the size of the memory in cells. Zero is an invalid memory size so an argument 
+must be provided. `Happy` is normally the first line in any Auld script as, by
+default, the defined memory only 1 cell in size. `Happy` can be called at any
+time and is a destructive operation, throwing away the previous memory contents
+and setting the `ptr` back to 0.
 
 For example
 
@@ -101,14 +106,18 @@ while (*ptr) { <instruction> }
 ### For auld lang syne
 
 The instruction `For auld lang syne` will output the character specified by the
-value of the current cell. If an argument is provided the pointer is moved to 
-the left by the value of the argument.
+value of the current cell. The exact character will be `abs(value) mod 127`.
+Characters 0-31 will be rendered as a `?`. If an argument is provided the
+pointer is moved to the left by the value of the argument after the character is
+output.
 
 ### Sin auld lang syne
 
 The instruction `sin auld lang syne` will output the character specified by the
-value of the current cell. If an argument is provided the pointer is moved to 
-the right by the value of the argument.
+value of the current cell. The exact character will be `abs(value) mod 127`.
+Characters 0-31 will be rendered as a `?`. If an argument is provided the
+pointer is moved to the right by the value of the argument after the character is
+output.
 
 ### We'll
 
@@ -120,24 +129,30 @@ current cell by the amount specified in the argument.
 The `And` instruction takes an argument and increments the value of the current
 cell by the amount specified in the argument.
 
+### Frea
+
+The `Frea` instruction moves the pointer to the right by the value specified in
+the argument.
+
 ### We
 
 The `We` instruction takes an argument and jumps to the line after the next
-`But` instruction if the value of the current cell is greater than the value
+`But` instruction if the value of the current cell is less than the value
 passed in the argument. If no `But` exists, the program terminates.
 
 ### But
 
 The `But` instruction takes an argument and jumps to the previous `We`
-instruction if the value of the current cell is less than the value passed in
+instruction if the value of the current cell is greater than the value passed in
 the argument. If no `We` exists, the program jumps to the first instruction
 after `Happy`.
 
 ## Example Program
 
-The following is an example Auld Lang program. I've not yet worked out what it
-will do. The language spec _will_ change if this program turns out to not be
-valid, or always gets stuck in an infinite loop.
+The following is the original Auld Lang program. Sadly the canonical `Happy`
+line was never stored so a standard one is being used. Output varies depending
+on the input provided, but with empty input it tries to print: `NUL SOH FS RS GS
+GS 6 7 SOH FS "`. User input changes the values of `6` and `7`.
 
 ```
 Happy New Year!
