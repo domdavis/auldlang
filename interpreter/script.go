@@ -42,16 +42,6 @@ func (s *script) Run() {
 		i := s.next()
 
 		i.Execute()
-
-		if s.debug {
-			fmt.Println(s.Memory)
-		}
-
-		i.Terminator()
-
-		if s.debug {
-			fmt.Println(s.Memory)
-		}
 	}
 
 	fmt.Println(s.Memory)
@@ -78,15 +68,15 @@ func (s *script) next() Instruction {
 
 	switch line[len(line)-1:] {
 	case "?":
-		i.terminator = func() { input(s.Memory); s.Memory.Next() }
+		i.terminator = func() { input(s.Memory); s.Memory.Next(); s.dump() }
 	case "!":
-		i.terminator = s.Memory.Next
+		i.terminator = func() { s.Memory.Next(); s.dump() }
 	case ";":
-		i.terminator = s.Memory.Previous
+		i.terminator = func() { s.Memory.Previous(); s.dump() }
 	case ",":
-		i.terminator = func() { s.Memory.Add(1) }
+		i.terminator = func() { s.Memory.Add(1); s.dump() }
 	case ".":
-		i.terminator = func() { s.Memory.Add(-1) }
+		i.terminator = func() { s.Memory.Add(-1); s.dump() }
 	default:
 		command = line
 	}
@@ -96,21 +86,22 @@ func (s *script) next() Instruction {
 	} else if arg := tokenize("Should auld acquaintance be forgot", command); arg >= 0 {
 		i.function = func() { s.rpt() }
 	} else if arg := tokenize("We'll", command); arg >= 0 {
-		i.function = func() { s.Add(-arg) }
+		i.function = func() { s.Add(-arg); s.dump() }
 	} else if arg := tokenize("And", command); arg >= 0 {
-		i.function = func() { s.Add(arg) }
+		i.function = func() { s.Add(arg); s.dump() }
 	} else if arg := tokenize("Frae", command); arg >= 0 {
-		i.function = func() { s.Move(arg) }
+		i.function = func() { s.Move(arg); s.dump() }
 	} else if arg := tokenize("Sin auld lang syne", command); arg >= 0 {
-		i.function = func() { output(s.Value()); s.Move(arg) }
+		i.function = func() { output(s.Value()); s.Move(arg); s.dump() }
 	} else if arg := tokenize("For auld lang syne", command); arg >= 0 {
-		i.function = func() { output(s.Value()); s.Move(-arg) }
+		i.function = func() { output(s.Value()); s.Move(-arg); s.dump() }
 	} else if arg := tokenize("We", command); arg >= 0 {
-		i.function = func() { s.jmp("But", arg) }
+		i.function = func() { s.jmp("But", arg); s.dump() }
 	} else if arg := tokenize("But", command); arg >= 0 {
-		i.function = func() { s.rtn("We", arg) }
+		i.function = func() { s.rtn("We", arg); s.dump() }
 	} else if arg := tokenize("Kevlin", command); arg >= 0 {
 		s.debug = true
+		s.dump()
 	} else {
 		panic(fmt.Sprintf("syntax error on line %d: %s", s.line-1, command))
 	}
@@ -119,11 +110,11 @@ func (s *script) next() Instruction {
 }
 
 func (s *script) rpt() {
+	s.dump()
 	for s.Memory.Value() != 0 {
 		i := s.next()
 		s.line--
 		i.Execute()
-		i.Terminator()
 	}
 
 	s.line++
@@ -157,6 +148,12 @@ func (s *script) rtn(keyword string, condition int) {
 	}
 
 	s.line = 0
+}
+
+func (s *script) dump() {
+	if s.debug {
+		fmt.Println(s.Memory)
+	}
 }
 
 func tokenize(keyword, line string) int {

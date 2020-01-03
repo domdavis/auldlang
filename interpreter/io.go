@@ -14,7 +14,7 @@ func input(memory Memory) {
 
 	fmt.Print("> ")
 	scanner.Scan()
-	memory.Add(len(scanner.Text()))
+	memory.Add(-len(scanner.Text()))
 }
 
 // output the ASCII value of the character if it's between 32 and 126, otherwise
