@@ -36,8 +36,6 @@ func main() {
 	} else {
 		i.Run()
 	}
-
-	fmt.Println(interpreter.Output())
 }
 
 func exit(code int, err error) {
