@@ -1,4 +1,5 @@
 Happy New Year To You All!
+
 Frae here we need to be
 And load data!
 And load this cell with ASCII spaces
@@ -14,6 +15,7 @@ And so it is now the letter "a"!
 And similarly this cell needs to be bumped up even more
 And so it is now the letter "n"!
 Frae to there!
+
 Should auld acquaintance be forgot
 Sin auld lang syne o
 And print "\n"
@@ -36,6 +38,7 @@ Frae here
 And make this much bigger than it was before
 And so now making it the letter "g"!
 Frae hither!
+
 Should auld acquaintance be forgot
 Sin auld lang syne o
 And print "\n"
@@ -64,6 +67,7 @@ Frae here!
 And make this here a tiny bit bigger than before
 And so it is now the letter e
 Frae so
+
 Should auld acquaintance be forgot
 Sin auld lang syne o
 And print "\n"
@@ -91,6 +95,7 @@ And we load in the stuff needed for that!
 And finally this needs to be the letter "n"
 And I've also seen that before so it's easy!
 Frae so!
+
 Should auld acquaintance be forgot
 Sin auld lang syne o
 And print "\n"
