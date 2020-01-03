@@ -1,13 +1,15 @@
 # Auld Lang
 
 Auld Lang is [I believe] a turing complete, case insensitive language with basic 
-syntax based on the lyrics of Auld Lang Syne. Why? I blame this 
+syntax based on the lyrics of Auld Lang Syne. Why? I blame 
+[Chris Oldwood](https://twitter.com/chrisoldwood) and this 
 [tweet](https://twitter.com/chrisoldwood/status/1211960165496508416).
 
 Influenced by 
 [Rho&#8242;&#8242;](https://en.wikipedia.org/wiki/P%E2%80%B2%E2%80%B2), among
 [others](https://en.wikipedia.org/wiki/Brainfuck) [NSFW], it's not a blind copy,
-due mainly to getting the original "program" to do something.
+due mainly to getting the original "program" to do something. Notably is 
+supports arguments, and it's looping structure is very different.
 
 ## Syntax
 
@@ -41,15 +43,15 @@ a second instruction.
 
 ### ?
 
-A `?` in the terminator will read a string from `stdin` and add the character
-count of that string to the current memory cell. Then move the `ptr` to the 
-right.
+A `?` in the terminator will read a string from `stdin` and subtract the
+character count of that string to the current memory cell. Then move the `ptr`
+to the right.
 
 In pseudo-code:
 
 ```
 text = readline()
-*ptr = *ptr + len(text)
+*ptr = *ptr - len(text)
 ptr++
 ```
 
@@ -71,7 +73,7 @@ A `,` in the terminator will increment the value of the current cell (`*ptr--`).
 
 ### Instructions
 
-Auld Lang understands the following 9 instructions. If it does not recognise an
+Auld Lang understands the following 10 instructions. If it does not recognise an
 instruction a syntax error is thrown. Blank lines are ignored.
 
 ### Happy
@@ -140,23 +142,29 @@ The `We` instruction takes an argument and jumps to the line after the next
 `But` instruction if the value of the current cell is less than the value
 passed in the argument. If no `But` exists, the program terminates.
 
+In pseudo-code:
+
+```
+while (*ptr >= cell) { ... }
+```
+
 ### But
 
 The `But` instruction takes an argument and jumps to the previous `We`
-instruction if the value of the current cell is greater than the value passed in
+instruction if the value of the current cell is less than the value passed in
 the argument. If no `We` exists, the program jumps to the first instruction
 after `Happy`.
 
+```
+do { ... } while (*ptr >= cell)
+```
+
 ## Example Program
 
-The following is the original Auld Lang program. Sadly the canonical `Happy`
-line was never stored so a standard one is being used. Output varies depending
-on the input provided, but with empty input it tries to print: `NUL SOH FS RS GS
-GS 6 7 SOH FS "`. User input changes the values of `6` and `7`.
+The following is the original Auld Lang program. It is unknown if there is a
+canonical "Happy" line, and sadly if there is that has been lost to time. 
 
 ```
-Happy New Year!
-
 Should auld acquaintance be forgot,
 and never brought to mind?
 Should auld acquaintance be forgot,
@@ -190,6 +198,23 @@ and surely I'll be mine!
 And we'll tak a cup o' kindness yet,
 for auld lang syne.
 ```
+
+When this is run as is the program requires a 15 character input to continue and 
+then outputs: `[1][2][21]<QQ('([17]b`
+
+This appears to be sending an empty header, then a NAK (possibly indicating
+it is not ready to reply to a poll). The string `<QQ('(` is then output before
+Device Control 1 is selected and the character `b` sent. One possible conclusion
+is the program is meant to be run on a machine connected to a network and other
+devices.
+
+That said, without a "Happy" line terminating in `.` or `,` the line:
+
+```
+and never brought to mind?
+```
+
+Is never run which would imply a "Happy" line is required.
 
 ## Hello, World!
 
@@ -230,7 +255,124 @@ sin auld lang syne o
 ```
 
 ```
-[72 'H'][101 'e'][108 'l'][108 'l'][111 'o'][44 ','][32 ' '][87 'W'][111 'o'][114 'r'][108 'l'][100 'd'][33 '!']
+Hello, World!
+```
+
+## Auld Lang Sine
+
+Of course we want to do something a lot more interesting that that, so here is
+a program that will output: 
+
+```
+        an        
+      l    g      
+a    d      s    e
+  ul          in  
+```
+
+```
+Happy New Year To You All!
+
+Frae here we need to be
+And load data!
+And load this cell with ASCII spaces
+We loop o'er the rest
+Frae o
+And load the cells with ASCII spaces
+But we exit when we get to our control cell
+We'll drop the data located in this memory cell!
+
+Frae to here!
+And once here we need to bump this cell up
+And so it is now the letter "a"!
+And similarly this cell needs to be bumped up even more
+And so it is now the letter "n"!
+Frae to there!
+
+Should auld acquaintance be forgot
+Sin auld lang syne o
+And print "\n"
+Sin auld lang syne o
+
+Happy New Year To You All!
+Frae here we need to be
+And load data!
+And load this cell with ASCII spaces
+We loop o'er the rest
+Frae o
+And load the cells with ASCII spaces
+But we exit when we get to our control cell
+We'll drop the data located in this memory cell!
+
+Frae there!
+And we need to add a load more numbers to this
+And so it is now become the letter "l"!
+Frae here
+And make this much bigger than it was before
+And so now making it the letter "g"!
+Frae hither!
+
+Should auld acquaintance be forgot
+Sin auld lang syne o
+And print "\n"
+Sin auld lang syne o
+
+Happy New Year To You All!
+Frae here we need to be
+And load data!
+And load this cell with ASCII spaces
+We loop o'er the rest
+Frae o
+And load the cells with ASCII spaces
+But we exit when we get to our control cell
+We'll drop the data located in this memory cell!
+
+And this new cell needs to get incremented
+And so it is now the letter "a"
+Frae here!
+And we need to add a load more to this
+And so it is now become the letter "d"!
+Frae herein
+And this needs to get really large
+And I mean really really large
+And so it is now the letter "s"
+Frae here!
+And make this here a tiny bit bigger than before
+And so it is now the letter e
+Frae so
+
+Should auld acquaintance be forgot
+Sin auld lang syne o
+And print "\n"
+Sin auld lang syne o
+
+Happy New Year To You All!
+Frae here we need to be
+And load data!
+And load this cell with ASCII spaces
+We loop o'er the rest
+Frae o
+And load the cells with ASCII spaces
+But we exit when we get to our control cell
+We'll drop the data located in this memory cell
+
+Frae so!
+And by putting a bunch of stuff into this cell
+And incrementing lots
+And so it becomes the letter u!
+And this cell needed to become the letter "l"
+And which was done before if you recall
+Frae over there!
+And let's make this the letter "i" indeed
+And we load in the stuff needed for that!
+And finally this needs to be the letter "n"
+And I've also seen that before so it's easy!
+Frae so!
+
+Should auld acquaintance be forgot
+Sin auld lang syne o
+And print "\n"
+Sin auld lang syne o
 ```
 
 ## License
