@@ -159,6 +159,13 @@ after `Happy`.
 do { ... } while (*ptr >= cell)
 ```
 
+### Kevlin
+
+Kevlin takes no arguments (and no prisoners). Invoking Kevlin will dump the
+contents of memory after every operation. Kevlin should never be invoked in
+production, although there are bigger issues if this is being used in production
+code.
+
 ## Example Program
 
 The following is the original Auld Lang program. It is unknown if there is a
