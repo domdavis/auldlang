@@ -17,14 +17,14 @@ func input(memory Memory) {
 	memory.Add(-len(scanner.Text()))
 }
 
-// output the ASCII value of the character if it's between 32 and 126, otherwise
+// output the ASCII value of the character if it's between 32 and 127, otherwise
 // print the value in square brackets.
 func output(value int) {
 	if value < 0 {
 		value = -value
 	}
 
-	value %= 127
+	value %= 128
 
 	c := fmt.Sprintf("[%d]", value)
 
