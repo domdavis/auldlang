@@ -13,6 +13,7 @@ type Script interface {
 }
 
 type script struct {
+	debug bool
 	line  int
 	lines []string
 	Memory
@@ -41,8 +42,20 @@ func (s *script) Run() {
 		i := s.next()
 
 		i.Execute()
+
+		if s.debug {
+			fmt.Println(s.Memory)
+		}
+
 		i.Terminator()
+
+		if s.debug {
+			fmt.Println(s.Memory)
+		}
 	}
+
+	fmt.Println(s.Memory)
+	display()
 }
 
 //nolint: gocyclo
@@ -83,9 +96,9 @@ func (s *script) next() Instruction {
 	} else if arg := tokenize("Should auld acquaintance be forgot", command); arg >= 0 {
 		i.function = func() { s.rpt() }
 	} else if arg := tokenize("We'll", command); arg >= 0 {
-		i.function = func() { s.Add(arg) }
-	} else if arg := tokenize("And", command); arg >= 0 {
 		i.function = func() { s.Add(-arg) }
+	} else if arg := tokenize("And", command); arg >= 0 {
+		i.function = func() { s.Add(arg) }
 	} else if arg := tokenize("Frae", command); arg >= 0 {
 		i.function = func() { s.Move(arg) }
 	} else if arg := tokenize("Sin auld lang syne", command); arg >= 0 {
@@ -96,6 +109,8 @@ func (s *script) next() Instruction {
 		i.function = func() { s.jmp("But", arg) }
 	} else if arg := tokenize("But", command); arg >= 0 {
 		i.function = func() { s.rtn("We", arg) }
+	} else if arg := tokenize("Kevlin", command); arg >= 0 {
+		s.debug = true
 	} else {
 		panic(fmt.Sprintf("syntax error on line %d: %s", s.line-1, command))
 	}
@@ -110,6 +125,8 @@ func (s *script) rpt() {
 		i.Execute()
 		i.Terminator()
 	}
+
+	s.line++
 }
 
 func (s *script) jmp(keyword string, condition int) {
@@ -117,9 +134,9 @@ func (s *script) jmp(keyword string, condition int) {
 		return
 	}
 
-	for i := s.line + 1; i < len(s.lines); i++ {
-		if strings.HasPrefix(s.lines[i], keyword) {
-			s.line = i
+	for i := s.line; i < len(s.lines); i++ {
+		if arg := tokenize(keyword, s.lines[i]); arg >= 0 {
+			s.line = i + 1
 			return
 		}
 	}
@@ -128,16 +145,18 @@ func (s *script) jmp(keyword string, condition int) {
 }
 
 func (s *script) rtn(keyword string, condition int) {
-	if s.Memory.Value() <= condition {
+	if s.Memory.Value() >= condition {
 		return
 	}
 
-	for i := s.line - 1; i > 0; i-- {
-		if strings.HasPrefix(s.lines[i], keyword) {
+	for i := s.line; i > 0; i-- {
+		if arg := tokenize(keyword, s.lines[i]); arg >= 0 {
 			s.line = i
 			return
 		}
 	}
+
+	s.line = 0
 }
 
 func tokenize(keyword, line string) int {
