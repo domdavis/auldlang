@@ -161,6 +161,8 @@ do { ... } while (*ptr >= cell)
 
 ### Kevlin
 
+The `Kevlin` keyword turns on debug.
+
 Kevlin takes no arguments (and no prisoners). Invoking Kevlin will dump the
 contents of memory after every operation. Kevlin should never be invoked in
 production, although there are bigger issues if this is being used in production
