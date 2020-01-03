@@ -9,12 +9,6 @@ import (
 
 var buffer = strings.Builder{}
 
-// Output the contents of the output buffer. Typically this is done once a
-// script is run.
-func Output() string {
-	return buffer.String()
-}
-
 func input(memory Memory) {
 	scanner := bufio.NewScanner(os.Stdin)
 
@@ -24,9 +18,9 @@ func input(memory Memory) {
 }
 
 // output the ASCII value of the character if it's between 32 and 126, otherwise
-// print "?".
+// print the value in square brackets.
 func output(value int) {
-	c := "?"
+	c := fmt.Sprintf("[%d]", value)
 
 	if value < 0 {
 		value = -value
@@ -34,9 +28,18 @@ func output(value int) {
 
 	value %= 127
 
+	switch value {
+	case 0, 9, 10, 15:
+		c = string(value)
+	}
+
 	if value >= 32 {
 		c = string(value)
 	}
 
-	buffer.WriteString(fmt.Sprintf("[%d '%s']", value, c))
+	buffer.WriteString(c)
+}
+
+func display() {
+	fmt.Println(buffer.String())
 }
