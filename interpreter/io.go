@@ -20,13 +20,13 @@ func input(memory Memory) {
 // output the ASCII value of the character if it's between 32 and 126, otherwise
 // print the value in square brackets.
 func output(value int) {
-	c := fmt.Sprintf("[%d]", value)
-
 	if value < 0 {
 		value = -value
 	}
 
 	value %= 127
+
+	c := fmt.Sprintf("[%d]", value)
 
 	switch value {
 	case 0, 9, 10, 15:
