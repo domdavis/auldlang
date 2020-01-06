@@ -22,11 +22,11 @@ significance (see Terminators below).
 ## Memory
 
 Auld Lang is based on a looped `n` cell memory, each holding a 64 bit int. The 
-pointer `(ptr)` starts at `0`. The following logic is applied:
+pointer (`ptr`) starts at `0`. The following logic is applied:
 
 ```
 while (ptr >= n) { ptr = ptr - n }
-while (pty < 0) { prt = prt + n }
+while (ptr < 0) { ptr = ptr + n }
 ```
 
 ## Arguments
@@ -44,7 +44,7 @@ a second instruction.
 ### ?
 
 A `?` in the terminator will read a string from `stdin` and subtract the
-character count of that string to the current memory cell. Then move the `ptr`
+character count of that string from the current memory cell. Then move the `ptr`
 to the right.
 
 In pseudo-code:
@@ -69,7 +69,7 @@ A `.` in the terminator will decrement the value of the current cell (`*ptr--`).
 
 ### ,
 
-A `,` in the terminator will increment the value of the current cell (`*ptr--`).
+A `,` in the terminator will increment the value of the current cell (`*ptr++`).
 
 ### Instructions
 
@@ -81,7 +81,7 @@ instruction a syntax error is thrown. Blank lines are ignored.
 The `Happy` allocates memory for the program. It takes an argument which defines
 the size of the memory in cells. Zero is an invalid memory size so an argument 
 must be provided. `Happy` is normally the first line in any Auld script as, by
-default, the defined memory only 1 cell in size. `Happy` can be called at any
+default, the defined memory is only 1 cell in size. `Happy` can be called at any
 time and is a destructive operation, throwing away the previous memory contents
 and setting the `ptr` back to 0.
 
@@ -108,7 +108,7 @@ while (*ptr) { <instruction> }
 ### For auld lang syne
 
 The instruction `For auld lang syne` will output the character specified by the
-value of the current cell. The exact character will be `abs(value) mod 127`.
+value of the current cell. The exact character will be `abs(value) mod 128`.
 Characters 0-31 will be rendered as a `?`. If an argument is provided the
 pointer is moved to the left by the value of the argument after the character is
 output.
@@ -116,7 +116,7 @@ output.
 ### Sin auld lang syne
 
 The instruction `sin auld lang syne` will output the character specified by the
-value of the current cell. The exact character will be `abs(value) mod 127`.
+value of the current cell. The exact character will be `abs(value) mod 128`.
 Characters 0-31 will be rendered as a `?`. If an argument is provided the
 pointer is moved to the right by the value of the argument after the character is
 output.
@@ -145,7 +145,7 @@ passed in the argument. If no `But` exists, the program terminates.
 In pseudo-code:
 
 ```
-while (*ptr >= cell) { ... }
+while (*ptr >= arg) { ... }
 ```
 
 ### But
@@ -156,7 +156,7 @@ the argument. If no `We` exists, the program jumps to the first instruction
 after `Happy`.
 
 ```
-do { ... } while (*ptr >= cell)
+do { ... } while (*ptr >= arg)
 ```
 
 ### Kevlin
