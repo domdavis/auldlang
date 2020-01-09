@@ -232,7 +232,7 @@ yes we can!
 
 ```
 Happy New Year World!
-Kevlin
+
 Frae the new year!
 And me to you!
 And great tidings o'er all the world
