@@ -11,6 +11,8 @@ Influenced by
 due mainly to getting the original "program" to do something. Notably it 
 supports arguments, and its looping structure is very different.
 
+Auld Lang has been added [Esolangs](https://esolangs.org/wiki/Auld_Lang).
+
 ## Syntax
 
 Auld Lang files contain a series of instructions in the format: 
