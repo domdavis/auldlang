@@ -133,9 +133,9 @@ current cell by the amount specified in the argument.
 The `And` instruction takes an argument and increments the value of the current
 cell by the amount specified in the argument.
 
-### Frea
+### Frae
 
-The `Frea` instruction moves the pointer to the right by the value specified in
+The `Frae` instruction moves the pointer to the right by the value specified in
 the argument.
 
 ### We
