@@ -80,7 +80,7 @@ instruction a syntax error is thrown. Blank lines are ignored.
 
 ### Happy
 
-The `Happy` allocates memory for the program. It takes an argument which defines
+The `Happy` instruction allocates memory for the program. It takes an argument which defines
 the size of the memory in cells. Zero is an invalid memory size so an argument 
 must be provided. `Happy` is normally the first line in any Auld script as, by
 default, the defined memory is only 1 cell in size. `Happy` can be called at any
