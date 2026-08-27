@@ -19,6 +19,12 @@ type script struct {
 	Memory
 }
 
+const (
+	nl           = "\n"
+	cr           = "\r"
+	continuation = "\\\n"
+)
+
 // ErrInvalidScript is returned if the Auld script is invalid (currently only
 // if it's empty)
 var ErrInvalidScript = errors.New("invalid Auld script")
@@ -32,7 +38,14 @@ func New(code string) (Script, error) {
 		return s, ErrInvalidScript
 	}
 
-	s.lines = lines
+	for i, line := range lines {
+		lines[i] = strings.ReplaceAll(line, cr, "")
+	}
+
+	contents := strings.Join(lines, nl)
+
+	contents = strings.ReplaceAll(contents, continuation, "")
+	s.lines = strings.Split(contents, nl)
 
 	return s, nil
 }
